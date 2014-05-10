@@ -5,12 +5,12 @@
 <div class="modal-body">
   <div style="display: inline-block;">
     <dl class="dl-horizontal">
-      <dt ng-repeat-start="(key, widget) in widgets">
+      <dt ng-repeat-start="(key, widget) in widgets" ng-hide="!isUseable(widget.require)">
         <a href="" ng-click="addWidget(key)">
           {{widget.title}}
         </a>      
       </dt>
-      <dd ng-repeat-end ng-if="widget.description">
+      <dd ng-repeat-end ng-if="widget.description" ng-hide="!isUseable(widget.require)">
         {{widget.description}}
       </dd>
     </dl>

@@ -83,6 +83,12 @@ angular.module('adf')
         });
       }
 
+      angular.forEach($scope.provide, function (value, key) {
+          resolvers[key] = value;
+      });
+
+      resolvers['data'] = $scope.provide;
+
       // resolve all resolvers
       $q.all(resolvers).then(function(locals) {
         angular.extend(locals, base);
@@ -112,7 +118,8 @@ angular.module('adf')
       transclude: false,
       scope: {
         model: '=',
-        content: '='
+        content: '=',
+        provide: '=?'
       },
       link: function($scope, $element, $attr) {
         compileWidget($scope, $element);

@@ -102,7 +102,8 @@ angular.module('adf')
         structure: '@',
         name: '@',
         collapsible: '@',
-        adfModel: '='
+        adfModel: '=',
+        provide: '=?'
       },
       controller: function($scope){
         // sortable options for drag and drop
@@ -179,7 +180,19 @@ angular.module('adf')
         // add widget dialog
         $scope.addWidgetDialog = function(){
           var addScope = $scope.$new();
+          addScope.provide = $scope.provide;
           addScope.widgets = dashboard.widgets;
+          addScope.isUseable = function (require) {
+            var response = true;
+
+            angular.forEach(require, function (name) {
+                if (angular.isUndefined(addScope.provide[name])) {
+                    response = false;
+                }
+            });
+
+            return response;
+          };
           var opts = {
             scope: addScope,
             templateUrl: '../src/templates/widget-add.html'
