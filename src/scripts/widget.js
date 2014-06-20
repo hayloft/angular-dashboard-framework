@@ -37,6 +37,12 @@ angular.module('adf')
             definition.title = w.title;
           }
 
+          if ($scope.editable && w.editable) {
+            $scope.editable = true;
+          } else {
+            $scope.editable = false;
+          }
+
           // pass edit mode
           $scope.editMode = $attr.editMode;
 
@@ -122,7 +128,8 @@ angular.module('adf')
         col: '=column',
         editMode: '@',
         collapsible: '=',
-        provide: '=?'
+        provide: '=?',
+        editable: '=?'
       },
       compile: function compile($element, $attr, transclude) {
         

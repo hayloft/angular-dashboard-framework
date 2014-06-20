@@ -30,6 +30,12 @@
     </h3>
   </div>
   <div class="panel-body" collapse="isCollapsed">
-    <adf-widget-content model="definition" provide="provide" content="widget" />
+    <form editable-form name="edit" ng-if="editable">
+      <adf-widget-content model="definition" provide="provide" content="widget" />
+    </form>
+
+    <div ng-if="!editable">
+      <adf-widget-content model="definition" provide="provide" content="widget" />
+    </div>
   </div>
 </div>
