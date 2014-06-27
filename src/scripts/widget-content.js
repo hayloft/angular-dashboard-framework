@@ -62,6 +62,7 @@ angular.module('adf')
       }
 
       templateScope.config = model.config;
+      templateScope.editable = $scope.form;
 
       // local injections
       var base = {
@@ -115,11 +116,12 @@ angular.module('adf')
     return {
       replace: true,
       restrict: 'EA',
-      transclude: false,
+      /*transclude: false,*/
       scope: {
         model: '=',
         content: '=',
-        provide: '=?'
+        provide: '=?',
+        form: '='
       },
       link: function($scope, $element, $attr) {
         compileWidget($scope, $element);

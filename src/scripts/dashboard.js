@@ -97,7 +97,7 @@ angular.module('adf')
     return {
       replace: true,
       restrict: 'EA',
-      transclude : false,
+      /*transclude : false,*/
       scope: {
         structure: '@',
         name: '@',

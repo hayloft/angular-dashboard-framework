@@ -37,11 +37,15 @@ angular.module('adf')
             definition.title = w.title;
           }
 
-          if ($scope.editable && w.editable) {
+          /*if ($scope.editable && w.editable) {
             $scope.editable = true;
           } else {
             $scope.editable = false;
-          }
+          }*/
+
+          /*if ($scope.editable) {
+
+          }*/
 
           // pass edit mode
           $scope.editMode = $attr.editMode;
@@ -121,7 +125,7 @@ angular.module('adf')
     return {
       replace: true,
       restrict: 'EA',
-      transclude: false,
+      /*transclude: false,*/
       templateUrl: '../src/templates/widget.html',
       scope: {
         definition: '=',
