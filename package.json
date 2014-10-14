@@ -14,7 +14,6 @@
     "grunt-contrib-uglify": "~0.2.2",
     "grunt-contrib-watch": "~0.6.1",
     "grunt-filerev": "~0.2.0",
-    "grunt-google-cdn": "~0.2.2",
     "grunt-ngdocs": "~0.1.7",
     "grunt-ngmin": "0.0.3",
     "grunt-string-replace": "^1.0.0",

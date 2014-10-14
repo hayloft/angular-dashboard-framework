@@ -161,6 +161,23 @@ angular.module('adf')
           }
         };
 
+        $scope.filterWidgets = function (definitions) {
+            var widgets;
+            if (angular.isFunction(widgetFilter)){
+                widgets = [];
+                angular.forEach(definitions, function(definition){
+                    var widget = dashboard.widgets[definition.type];
+                    if (widgetFilter(widget, definition.type)){
+                        widgets.push(definition);
+                    }
+                });
+            } else {
+                widgets = definitions;
+            }
+
+            return widgets;
+        };q
+
         $scope.cancelEditMode = function(){
           $scope.editMode = false;
 		      $scope.modelCopy = angular.copy($scope.modelCopy, $scope.adfModel);
@@ -187,8 +204,7 @@ angular.module('adf')
         // add widget dialog
         $scope.addWidgetDialog = function(){
           var addScope = $scope.$new();
-<<<<<<< HEAD
-          addScope.provide = $scope.provide ? $scope.provide : null;
+          /*addScope.provide = $scope.provide ? $scope.provide : null;
           addScope.widgets = dashboard.widgets;
           addScope.isUseable = function (require) {
             var response = true;
@@ -200,8 +216,8 @@ angular.module('adf')
             });
 
             return response;
-          };
-=======
+          };*/
+
           var widgets;
           if (angular.isFunction(widgetFilter)){
             widgets = {};
@@ -214,7 +230,6 @@ angular.module('adf')
             widgets = dashboard.widgets;
           }
           addScope.widgets = widgets;
->>>>>>> upstream/master
           var opts = {
             scope: addScope,
             templateUrl: adfTemplatePath + 'widget-add.html'

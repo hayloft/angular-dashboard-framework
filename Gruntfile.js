@@ -262,7 +262,7 @@
   grunt.loadNpmTasks('grunt-usemin');
 
   // cdnify
-  grunt.loadNpmTasks('grunt-google-cdn');
+  //grunt.loadNpmTasks('grunt-google-cdn');
 
   // filerev
   grunt.loadNpmTasks('grunt-filerev');
