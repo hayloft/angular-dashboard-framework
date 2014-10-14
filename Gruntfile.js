@@ -24,9 +24,11 @@
 
  module.exports = function(grunt) {
 
+  var pkg = grunt.file.readJSON('package.json');
+
   // Project configuration.
   grunt.initConfig({
-    pkg: grunt.file.readJSON('package.json'),
+    pkg: pkg,
     dirs: {
       src: 'src/scripts'
     },
@@ -36,7 +38,7 @@
         dest: '.tmp/ngtemplates/templates.js',
         options: {
           htmlmin: {
-            collapseWhitespace: true, 
+            collapseWhitespace: true,
             collapseBooleanAttributes: true,
             removeComments: true
           },
@@ -49,7 +51,7 @@
         dest: '.tmp/ngtemplates/sample.templates.js',
         options: {
           htmlmin: {
-            collapseWhitespace: true, 
+            collapseWhitespace: true,
             collapseBooleanAttributes: true,
             removeComments: true
           }
@@ -59,10 +61,10 @@
     concat: {
       default: {
         src: [
-          '<%= dirs.src %>/sortable.js', 
-          '<%= dirs.src %>/provider.js', 
+          '<%= dirs.src %>/sortable.js',
+          '<%= dirs.src %>/provider.js',
           '<%= dirs.src %>/adf.js',
-          '<%= dirs.src %>/dashboard.js', 
+          '<%= dirs.src %>/dashboard.js',
           '<%= dirs.src %>/widget-content.js',
           '<%= dirs.src %>/widget.js',
           '.tmp/ngtemplates/templates.js'
@@ -72,6 +74,23 @@
       sample: {
         src: ['.tmp/concat/js/sample.min.js', '.tmp/ngtemplates/templates.js', '.tmp/ngtemplates/sample.templates.js'],
         dest: '.tmp/concat/js/complete.min.js'
+      }
+    },
+    'string-replace': {
+      dist: {
+        files: [{
+          src: '.tmp/concat/adf.js',
+          dest: '.tmp/concat/adf.js'
+        },{
+          src: '.tmp/concat/js/complete.min.js',
+          dest: '.tmp/concat/js/complete.min.js'
+        }],
+        options: {
+          replacements: [{
+            pattern: '<<adfVersion>>',
+            replacement: pkg.version
+          }]
+        }
       }
     },
     ngmin: {
@@ -105,7 +124,7 @@
         files: {
           'dist/sample/js/sample.min.js': ['.tmp/ngmin/complete.min.js'],
           'dist/sample/js/jquery.ui.sortable.min.js': ['.tmp/concat/js/jquery.ui.sortable.min.js']
-        }        
+        }
       }
     },
     cssmin: {
@@ -117,7 +136,7 @@
       sample: {
         files: {
           'dist/sample/css/sample.min.css': ['.tmp/concat/css/sample.min.css']
-        }        
+        }
       }
     },
     ngdocs: {
@@ -135,7 +154,7 @@
       sample: {
         files: [{
           src: 'sample/index.html',
-          dest: 'dist/sample/index.html'            
+          dest: 'dist/sample/index.html'
         },{
           src: 'sample/components/angular/angular.min.js',
           dest: 'dist/sample/js/angular.min.js'
@@ -170,6 +189,16 @@
         html: ['dist/sample/index.html']
       }
     },
+    jshint: {
+      options: {
+        globalstrict: true,
+        multistr: true,
+        globals: {
+          angular: true
+        }
+      },
+      files: 'src/scripts/*.js'
+    },
     connect: {
       server: {
         options: {
@@ -181,8 +210,8 @@
     watch: {
       scripts: {
         files: [
-          'src/**/*.js', 
-          'src/**/*.html', 
+          'src/**/*.js',
+          'src/**/*.html',
           'src/**/*.css',
           'sample/index.html',
           'sample/scripts/**/*.js',
@@ -211,24 +240,27 @@
   // concat
   grunt.loadNpmTasks('grunt-contrib-concat');
 
+  // string-replace
+  grunt.loadNpmTasks('grunt-string-replace');
+
   // Load the plugin that provides the "uglify" task.
   grunt.loadNpmTasks('grunt-contrib-uglify');
 
   // css
   grunt.loadNpmTasks('grunt-contrib-cssmin');
 
-  // clean 
+  // clean
   grunt.loadNpmTasks('grunt-contrib-clean');
 
   // ngdoc
   grunt.loadNpmTasks('grunt-ngdocs');
-  
+
   // copy
   grunt.loadNpmTasks('grunt-contrib-copy');
-  
+
   // usemin
   grunt.loadNpmTasks('grunt-usemin');
-  
+
   // cdnify
   grunt.loadNpmTasks('grunt-google-cdn');
 
@@ -246,29 +278,31 @@
 
   grunt.registerTask('default-wo-clean', [
     'clean',
-    'ngtemplates:adf', 
-    'concat:default', 
-    'ngmin:default', 
-    'uglify:default', 
-    'cssmin:default', 
+    'ngtemplates:adf',
+    'concat:default',
+    'string-replace',
+    'ngmin:default',
+    'uglify:default',
+    'cssmin:default',
     'ngdocs'
   ]);
 
   // gocs task
   grunt.registerTask('docs', ['clean', 'ngdocs']);
   grunt.registerTask('docs-wo-clean', ['ngdocs']);
-  
+
   // sample task
   grunt.registerTask('sample', ['clean', 'sample-wo-clean']);
 
   grunt.registerTask('sample-wo-clean', [
-    'useminPrepare', 
+    'useminPrepare',
     'copy:sample',
     'concat:generated',
     'ngtemplates',
     'concat:sample',
-    'cssmin:sample', 
-    'ngmin:sample', 
+    'string-replace',
+    'cssmin:sample',
+    'ngmin:sample',
     'uglify:sample',
     'filerev',
     'usemin',
